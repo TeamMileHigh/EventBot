@@ -1,5 +1,8 @@
+import dotenv from "dotenv"
+
+dotenv.config()
 export const config = {
-  quickNodeApiKey: 'QN_24faf1d9a9494359826600d5abdc9cd5',
+  quickNodeApiKey: process.env.QUICKNODE_API_KEY || "",
   apiBaseUrl: 'https://api.quicknode.com/',
   webhookUrl: 'https://yourapp.com/webhooks/quickalerts',
 };
