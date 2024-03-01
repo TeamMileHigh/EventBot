@@ -5,8 +5,8 @@ If you want to contribute to this package, here are the steps to set up the proj
 Install the necessary packages and build the project:
 
 ```bash
-yarn install
-yarn build
+pnpm install
+pnpm build
 ```
 
 Run the file echo under examples
