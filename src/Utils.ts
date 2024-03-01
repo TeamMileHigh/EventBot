@@ -44,3 +44,8 @@ export async function isAddressMalicious(address: string) {
     console.error('Error calling Harpie API:', e);
   }
 }
+
+export enum ClientType {
+  XMTP = 'XMTP',
+  Story = 'Story',
+}

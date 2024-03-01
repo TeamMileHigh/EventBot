@@ -11,10 +11,11 @@ import {
   sendMessageToSubscribers,
 } from './homeHandlers.js';
 import { isAddressMalicious } from './Utils.js';
+import { ClientType } from './Utils';
 
 run(async (context) => {
   const messageBody = context.message.content.trim().toLowerCase();
-  const client = await createClient();
+  const client = await createClient(ClientType.XMTP);
 
   // @dev check if sender is malicious or a bot
   // const harpieResult = await isAddressMalicious(context.message.senderAddress);
@@ -57,7 +58,7 @@ app.post('/webhooks/quickalerts', async (req: Request, res: Response) => {
   let client;
 
   try {
-    client = await createClient();
+    client = await createClient(ClientType.XMTP);
     await sendMessageToSubscribers(message, 1, client);
     res.status(200).send('Alert processed and messages sent');
   } catch (error) {
