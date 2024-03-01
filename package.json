@@ -1,0 +1,23 @@
+{
+  "name": "xmtp-event-bot",
+  "version": "0.0.1",
+  "description": "Subscribe to events via XMTP chatbot",
+  "main": "dist/src/index.js",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "dev": "node dist/index.js",
+    "predev": "yarn build",
+    "start": "node dist/src/index.js",
+    "test": "echo no tests yet"
+  },
+  "dependencies": {
+    "@xmtp/bot-kit-pro": "^0.2.7"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}
