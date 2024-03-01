@@ -1,23 +1,26 @@
 {
   "name": "xmtp-event-bot",
   "version": "0.0.1",
+  "type": "module",
   "description": "Subscribe to events via XMTP chatbot",
   "main": "dist/src/index.js",
   "private": true,
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -p tsconfig.json",
     "dev": "node dist/index.js",
-    "predev": "yarn build",
     "start": "node dist/src/index.js",
+    "reinstall": "rm -rf node_modules/ package-lock.json && pnpm i",
+    "rebuild": "rm -rf build/ && tsc -p tsconfig.json",
     "test": "echo no tests yet"
   },
   "dependencies": {
     "@xmtp/bot-kit-pro": "^0.2.7"
   },
+  "devDependencies": {
+    "prettier": "3.1.1",
+    "typescript": "^5.3.3"
+  },
   "engines": {
     "node": ">=20"
-  },
-  "devDependencies": {
-    "typescript": "^5.3.3"
   }
 }
