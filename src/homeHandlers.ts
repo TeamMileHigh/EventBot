@@ -1,6 +1,7 @@
 import HandlerContext from 'src/HandlerContext';
 import { Client as XmtpClient } from '@xmtp/xmtp-js';
 import { sql } from '@vercel/postgres';
+import { createDestination, createNotification } from './QuickAlertsSetup.js';
 
 const subscribeOptions = [
   'Receive incoming tx alerts on your wallet',
@@ -111,5 +112,15 @@ export async function sendMessageToSubscribers(
         error
       );
     }
+  }
+}
+
+export async function handleSetupQuickAlerts() {
+  try {
+    const destination = await createDestination();
+    await createNotification(destination.id, '2743');
+    console.log('QuickAlerts setup completed successfully.');
+  } catch (error) {
+    console.error('Failed to set up QuickAlerts:', error);
   }
 }
