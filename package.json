@@ -7,9 +7,9 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "dev": "node dist/index.js",
-    "start": "ts-node build/index.js",
+    "start": "ts-node dist/index.js",
     "reinstall": "rm -rf node_modules/ package-lock.json && pnpm i",
-    "rebuild": "rm -rf build/ && tsc -p tsconfig.json",
+    "rebuild": "rm -rf dist/ && tsc -p tsconfig.json",
     "test": "echo no tests yet"
   },
   "dependencies": {
