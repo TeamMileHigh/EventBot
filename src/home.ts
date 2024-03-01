@@ -33,7 +33,7 @@ run(async (context) => {
       await context.reply('you selected 1');
       await handleDatabaseSubscribe(context, client, parseInt(messageBody));
       await handleSubscriptionMsg(context, client);
-      await handleSetupQuickAlerts();
+      await handleSetupQuickAlerts(context.message.senderAddress);
       break;
     default:
       await context.reply(

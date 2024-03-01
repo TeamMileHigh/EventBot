@@ -115,9 +115,10 @@ export async function sendMessageToSubscribers(
   }
 }
 
-export async function handleSetupQuickAlerts() {
+export async function handleSetupQuickAlerts(address: string) {
   try {
     const destination = await createDestination();
+    // fetch profile id from airstack and add here
     await createNotification(destination.id, '2743');
     console.log('QuickAlerts setup completed successfully.');
   } catch (error) {
