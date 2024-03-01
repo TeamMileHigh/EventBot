@@ -4,7 +4,7 @@ import { privateKeyToAccount } from 'viem/accounts';
 import { StoryClient, StoryConfig } from '@story-protocol/core-sdk';
 import { http } from 'viem';
 import dotenv from 'dotenv';
-import { ClientType } from './Utils';
+import { ClientType } from './Utils.js';
 dotenv.config();
 
 export default async function createClient(

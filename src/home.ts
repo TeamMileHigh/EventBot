@@ -10,8 +10,7 @@ import {
   handleSetupQuickAlerts,
   sendMessageToSubscribers,
 } from './homeHandlers.js';
-import { isAddressMalicious } from './Utils.js';
-import { ClientType } from './Utils';
+import { isAddressMalicious, ClientType } from './Utils.js';
 
 run(async (context) => {
   const messageBody = context.message.content.trim().toLowerCase();
