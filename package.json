@@ -42,6 +42,7 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
+    "@vercel/postgres": "^0.7.2",
     "@xmtp/xmtp-js": "^11.3.12",
     "dotenv": "^16.3.1",
     "ethers": "^6.11.1"
