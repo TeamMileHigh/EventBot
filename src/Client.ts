@@ -1,4 +1,4 @@
-import "./Environment"
+import "./Environment.js"
 
 import { Client } from "@xmtp/xmtp-js"
 import dotenv from "dotenv"
