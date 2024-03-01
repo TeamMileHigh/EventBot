@@ -49,12 +49,12 @@ export async function handleDatabaseSubscribe(
   const walletAddress = context.message.senderAddress;
 
   try {
-    // await createSubscriptionTable();
-
-    await sql`
+    const res = await sql`
       INSERT INTO subscriptions (wallet_address, subscribed_event)
       VALUES (${walletAddress}, ${event})
     `;
+
+    console.log(res, 'res');
 
     await context.reply(
       'Your subscription choice has been stored successfully.'
@@ -116,10 +116,14 @@ export async function sendMessageToSubscribers(
   }
 }
 
-export async function handleSetupQuickAlerts(address: string) {
+export async function handleSetupQuickAlerts(context: HandlerContext) {
+  const address = context.message.senderAddress;
   try {
     const destination = await createDestination();
     const profileId = await fetchLensProfile(address);
+    if (!profileId) {
+      context.reply('You do not have a Lens Profile');
+    }
     await createNotification(destination.id, profileId);
     console.log('QuickAlerts setup completed successfully.');
   } catch (error) {

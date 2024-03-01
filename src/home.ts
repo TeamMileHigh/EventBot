@@ -17,10 +17,10 @@ run(async (context) => {
   const client = await createClient();
 
   // @dev check if sender is malicious or a bot
-  const harpieResult = await isAddressMalicious(context.message.senderAddress);
-  if (harpieResult.isMaliciousAddress || harpieResult.tags.BOT) {
-    context.reply(`You are blocked from accessing this chatbot`);
-  }
+  // const harpieResult = await isAddressMalicious(context.message.senderAddress);
+  // if (harpieResult.isMaliciousAddress || harpieResult.tags.BOT) {
+  //   context.reply(`You are blocked from accessing this chatbot`);
+  // }
 
   switch (messageBody) {
     case 'subscribe':
@@ -33,7 +33,7 @@ run(async (context) => {
       await context.reply('you selected 1');
       await handleDatabaseSubscribe(context, client, parseInt(messageBody));
       await handleSubscriptionMsg(context, client);
-      await handleSetupQuickAlerts(context.message.senderAddress);
+      await handleSetupQuickAlerts(context);
       break;
     default:
       await context.reply(
@@ -45,8 +45,8 @@ run(async (context) => {
 const app = express();
 app.use(bodyParser.json({ limit: '50mb' }));
 
-app.get('/', (req: Request, res: Response) => {
-  res.status(200).send({ message: 'MileHigh is live' });
+app.get('/', (res: Response) => {
+  res.status(200).send({ message: 'Mile high server is live' });
 });
 
 app.post('/webhooks/quickalerts', async (req: Request, res: Response) => {
