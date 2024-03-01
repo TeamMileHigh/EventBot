@@ -1,0 +1,1 @@
+{"version":3,"file":"HandlerContext.d.ts","sourceRoot":"","sources":["../../src/HandlerContext.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,cAAc,EAAE,MAAM,eAAe,CAAA;AAE9C,MAAM,CAAC,OAAO,OAAO,cAAc;IACjC,OAAO,EAAE,cAAc,CAAA;gBAEX,OAAO,EAAE,cAAc;IAI7B,KAAK,CAAC,OAAO,EAAE,MAAM;CAG5B"}

@@ -1,0 +1,1 @@
+{"version":3,"file":"HandlerContext.js","sourceRoot":"","sources":["../../src/HandlerContext.ts"],"names":[],"mappings":"AAEA,MAAM,CAAC,OAAO,OAAO,cAAc;IAGjC,YAAY,OAAuB;QACjC,IAAI,CAAC,OAAO,GAAG,OAAO,CAAA;IACxB,CAAC;IAED,KAAK,CAAC,KAAK,CAAC,OAAe;QACzB,MAAM,IAAI,CAAC,OAAO,CAAC,YAAY,CAAC,IAAI,CAAC,OAAO,CAAC,CAAA;IAC/C,CAAC;CACF"}
