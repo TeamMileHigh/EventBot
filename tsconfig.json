@@ -1,15 +1,8 @@
-
 {
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "outDir": "dist",
-    "incremental": true,
-    "target": "es6",
-    "module": "commonjs",
-    "strict": false,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-	"baseUrl": ".",
+    "types": ["jest"]
   },
   "includes": ["src"]
 }
