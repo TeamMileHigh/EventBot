@@ -35,7 +35,7 @@
     "test": "jest",
     "home": "node dist/src/home.js",
     "setupAlerts": "node dist/src/Main.js",
-    "start": "node dist/src/WebhookServer.js",
+    "start": "pnpx tsx src/home.ts",
     "dev": "nodemon src/WebhookServer.ts"
   },
   "devDependencies": {
@@ -47,6 +47,7 @@
     "nodemon": "^2.0.15",
     "prettier": "^3.2.5",
     "ts-jest": "^29.0.5",
+    "tsx": "^4.7.1",
     "typescript": "^5.3.3"
   },
   "dependencies": {

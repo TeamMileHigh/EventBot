@@ -8,7 +8,7 @@ import {
   handleDatabaseUnsubscribe,
   handleSubscriptionMsg,
   handleSetupQuickAlerts,
-  sendMessageToSubscribers
+  sendMessageToSubscribers,
 } from './homeHandlers.js';
 import { isAddressMalicious } from './Utils.js';
 
@@ -45,10 +45,14 @@ run(async (context) => {
 const app = express();
 app.use(bodyParser.json({ limit: '50mb' }));
 
+app.get('/', (req: Request, res: Response) => {
+  res.status(200).send({ message: 'MileHigh is live' });
+});
+
 app.post('/webhooks/quickalerts', async (req: Request, res: Response) => {
   const data = req.body;
   console.log('Received alert:', data);
-  
+
   const message = 'You have a new follower on your Lens profile.';
   let client;
 
@@ -68,4 +72,3 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
-
