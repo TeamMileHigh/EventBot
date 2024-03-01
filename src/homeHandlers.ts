@@ -5,8 +5,8 @@ import { createDestination, createNotification } from './QuickAlertsSetup.js';
 import { fetchLensProfile } from './AirstackSetup.js';
 
 const subscribeOptions = [
-  'Receive incoming tx alerts on your wallet',
   'Receive alerts on new followers from your lens profile',
+  'Receive incoming tx alerts on your wallet (coming soon)',
   // Add more options as needed
 ];
 
@@ -124,7 +124,8 @@ export async function handleSetupQuickAlerts(context: HandlerContext) {
     if (!profileId) {
       context.reply('You do not have a Lens Profile');
     }
-    await createNotification(destination.id, profileId);
+    // for demo purposes we need a profileId that's not my own https://buttrfly.app/profile/benalistair
+    await createNotification(destination.id, "2743");
     console.log('QuickAlerts setup completed successfully.');
   } catch (error) {
     console.error('Failed to set up QuickAlerts:', error);
