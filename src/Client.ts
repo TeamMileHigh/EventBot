@@ -31,12 +31,13 @@ export default async function createClient(
   return client;
 }
 
-async function createXmtpClient(privateKey: string): Promise<any> {
+async function createXmtpClient(privateKey: string): Promise<Client> {
   const wallet = new Wallet(privateKey);
   const client = await Client.create(wallet, {
     env: process.env.NODE_ENV as 'dev' | 'local' | 'production',
   });
-  return client.publishUserContact();
+  await client.publishUserContact();
+  return client;
 }
 
 async function createStoryClient(privateKey: `0x${string}`): Promise<any> {

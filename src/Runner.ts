@@ -1,10 +1,11 @@
 import createClient from './Client.js';
 import HandlerContext from './HandlerContext.js';
+import { ClientType } from './Utils.js';
 
 type Handler = (message: HandlerContext) => Promise<void>;
 
 export default async function run(handler: Handler) {
-  const client = await createClient();
+  const client = await createClient(ClientType.XMTP);
 
   console.log(`Listening on ${client.address}`);
 
