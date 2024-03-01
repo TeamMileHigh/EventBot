@@ -18,7 +18,7 @@ export async function fetchLensProfile(walletAddress: string): Promise<string> {
                 input: {
                     filter: {
                         userAssociatedAddresses: {_eq: "${walletAddress}"},
-                        dappName: {_eq: "lens"}
+                        dappName: {_eq: lens}
                     },
                     blockchain: ethereum
                 }
