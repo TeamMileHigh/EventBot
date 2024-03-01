@@ -1,11 +1,11 @@
-import run from '../src/Runner';
-import createClient from '../src/Client';
+import run from './Runner.js';
+import createClient from './Client.js';
 import {
   handleDatabaseSubscribe,
   handleSubscription,
   handleDatabaseUnsubscribe,
   handleSubscriptionMsg,
-} from '../src/homeHandlers';
+} from './homeHandlers.js';
 
 run(async (context) => {
   const messageBody = context.message.content.trim().toLowerCase();

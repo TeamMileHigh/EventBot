@@ -1,6 +1,6 @@
-import run from "../src/Runner";
-import Client from "../src/Client";
-import createClient from "../src/Client";
+import run from "./Runner.js";
+import Client from "./Client.js";
+import createClient from "./Client.js";
 
 
 run(async (context) => {

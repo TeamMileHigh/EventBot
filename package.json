@@ -33,6 +33,7 @@
     "build": "tsc",
     "prepublishOnly": "npm run build",
     "test": "jest",
+    "home": "node dist/src/home.js",
     "setupAlerts": "node dist/src/Main.js",
     "start": "node dist/src/WebhookServer.js",
     "dev": "nodemon src/WebhookServer.ts"
