@@ -2,6 +2,7 @@ import HandlerContext from 'src/HandlerContext';
 import { Client as XmtpClient } from '@xmtp/xmtp-js';
 import { sql } from '@vercel/postgres';
 import { createDestination, createNotification } from './QuickAlertsSetup.js';
+import { fetchLensProfile } from './AirstackSetup.js';
 
 const subscribeOptions = [
   'Receive incoming tx alerts on your wallet',
@@ -118,8 +119,8 @@ export async function sendMessageToSubscribers(
 export async function handleSetupQuickAlerts(address: string) {
   try {
     const destination = await createDestination();
-    // fetch profile id from airstack and add here
-    await createNotification(destination.id, '2743');
+    const profileId = await fetchLensProfile(address);
+    await createNotification(destination.id, profileId);
     console.log('QuickAlerts setup completed successfully.');
   } catch (error) {
     console.error('Failed to set up QuickAlerts:', error);
