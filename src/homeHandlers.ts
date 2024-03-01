@@ -92,8 +92,8 @@ export async function handleDatabaseUnsubscribe(
 export async function sendMessageToSubscribers(
   message: string,
   eventType: number,
-  client: XmtpClient<any>  
-  ) {
+  client: XmtpClient<any>
+) {
   // Fetch subscribers from the database
   const result = await sql`
     SELECT wallet_address FROM subscriptions WHERE subscribed_event = ${eventType}
@@ -101,20 +101,15 @@ export async function sendMessageToSubscribers(
 
   for (const subscriber of result.rows) {
     try {
-      const conversation = await client.conversations.newConversation(subscriber.wallet_address);
+      const conversation = await client.conversations.newConversation(
+        subscriber.wallet_address
+      );
       await conversation.send(message);
     } catch (error) {
-      console.error(`Failed to send message to ${subscriber.wallet_address}:`, error);
+      console.error(
+        `Failed to send message to ${subscriber.wallet_address}:`,
+        error
+      );
     }
   }
-}
-
-async function createSubscriptionTable() {
-  return await sql`
-    CREATE TABLE IF NOT EXISTS subscriptions (
-      id SERIAL PRIMARY KEY,
-      wallet_address VARCHAR(42) NOT NULL,
-      subscribed_event INTEGER NOT NULL
-    )
-  `;
 }
