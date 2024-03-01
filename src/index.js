@@ -1,8 +1,7 @@
-import { BotConfig, newBotConfig, run } from '@xmtp/bot-kit-pro';
+import { newBotConfig, run } from '@xmtp/bot-kit-pro';
+import echo from './echo.js';
 
-import echo from './echo';
-
-const defaultConfig: Partial<BotConfig> = {
+const defaultConfig = {
   xmtpEnv: 'dev',
 };
 
