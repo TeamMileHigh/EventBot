@@ -16,15 +16,15 @@ run(async (context) => {
   const messageBody = context.message.content.trim().toLowerCase();
   const client = await createClient();
 
-  // @dev check if sender is malicious or a bot
-  // const harpieResult = await isAddressMalicious(context.message.senderAddress);
-  // if (harpieResult.isMaliciousAddress || harpieResult.tags.BOT) {
-  //   context.reply(`You are blocked from accessing this chatbot`);
-  // }
-
   switch (messageBody) {
-    case 'subscribe':
-      await handleSubscription(context, client);
+    case 'subscribe':    
+      // @dev check if sender is malicious or a bot
+      const harpieResult = await isAddressMalicious(context.message.senderAddress);
+      if (harpieResult.isMaliciousAddress || harpieResult.tags.BOT) {
+        context.reply(`You are blocked from accessing this chatbot`);
+      } else {
+        await handleSubscription(context, client);
+      }
       break;
     case 'unsubscribe':
       await handleDatabaseUnsubscribe(context, client, parseInt(messageBody));
