@@ -39,14 +39,14 @@ export async function handleSubscriptionMsg(
   await client.contacts.refreshConsentList();
   let state = await client.contacts.consentState(context.message.senderAddress);
 
-  if (state === 'unknown' || state === 'denied') {
+  // if (state === 'unknown' || state === 'denied') {
     await client.contacts.allow([context.message.senderAddress]);
     await context.reply(
       'You are now subscribed to receive messages from the bot.'
     );
-  } else {
-    await context.reply('Error: Missing consent.');
-  }
+  // } else {
+  //   await context.reply('Error: Missing consent.');
+  // }
 }
 
 export async function handleDatabaseSubscribe(
