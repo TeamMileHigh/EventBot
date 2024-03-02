@@ -6,12 +6,11 @@ import {
   handleDatabaseSubscribe,
   handleSubscription,
   handleDatabaseUnsubscribe,
+  handleUnsubscriptionMsg,
   handleSubscriptionMsg,
   handleSetupQuickAlerts,
   sendMessageToSubscribers,
 } from './homeHandlers.js';
-import { isAddressMalicious } from './Utils.js';
-import { ClientType } from './Utils';
 import {
   ContentTypeAttachment,
   AttachmentCodec,
@@ -19,6 +18,8 @@ import {
   ContentTypeRemoteAttachment,
   Attachment,
 } from '@xmtp/content-type-remote-attachment';
+import { isAddressMalicious, ClientType } from './Utils.js';
+import { queryGraph } from './TheGraphSetup.js';
 
 run(async (context) => {
   const client = await createClient(ClientType.XMTP);
@@ -47,19 +48,27 @@ run(async (context) => {
         context.message.senderAddress
       );
       if (harpieResult.isMaliciousAddress || harpieResult.tags.BOT) {
-        context.reply(`You are blocked from accessing this chatbot`);
+        await client.contacts.deny([context.message.senderAddress]);
+        context.reply(
+          `Sorry, you've been flagged as malicious you're blocked from accessing this chatbot`
+        );
       } else {
         await handleSubscription(context, client);
       }
       break;
     case 'unsubscribe':
       await handleDatabaseUnsubscribe(context, client, parseInt(messageBody));
+      await handleUnsubscriptionMsg(context, client);
       break;
     case '1':
       await context.reply('you selected 1');
       await handleDatabaseSubscribe(context, client, parseInt(messageBody));
       await handleSubscriptionMsg(context, client);
       await handleSetupQuickAlerts(context);
+      break;
+    case '2':
+      const message = await queryGraph();
+      context.reply(message);
       break;
     default:
       await context.reply(

@@ -6,6 +6,7 @@ import { fetchLensProfile } from './AirstackSetup.js';
 
 const subscribeOptions = [
   'Receive alerts on new followers from your lens profile',
+  'Get the top 3 pools with the highest total volume in USD',
   'Receive incoming tx alerts on your wallet (coming soon)',
   // Add more options as needed
 ];
@@ -19,7 +20,7 @@ export async function handleSubscription(
     reply += `${index + 1}. ${option}\n`;
   });
 
-  reply += '\nReply with a number';
+  reply += '\nReply with a number or "unsubscribe" to cancel.';
   await context.reply(reply);
 }
 
@@ -89,6 +90,19 @@ export async function handleDatabaseUnsubscribe(
       'An error occurred while unsubscribing. Please try again later.'
     );
   }
+}
+
+export async function handleUnsubscriptionMsg(
+  context: HandlerContext,
+  client: XmtpClient<any>
+) {
+  // @dev store subscription consent on XMTP
+  await client.contacts.refreshConsentList();
+  
+  await client.contacts.deny([context.message.senderAddress]);
+  await context.reply(
+    'You are now unsubscribed from receiving messages from the bot.'
+  );
 }
 
 export async function sendMessageToSubscribers(
