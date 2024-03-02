@@ -11,8 +11,8 @@ import {
 import { Attachment } from '@xmtp/content-type-remote-attachment';
 
 const subscribeOptions = [
-  'Receive alerts on new followers from your lens profile',
-  'Get the top 3 pools with the highest total volume in USD',
+  'Receive alerts on new followers from my lens profile',
+  'Get the top 3 Uniswap pools with the highest total volume in USD',
   'Register an image as an Intellectual Property Asset on Story Protocol',
   'Receive incoming tx alerts on your wallet (coming soon)',
   // Add more options as needed
@@ -22,7 +22,7 @@ export async function handleSubscription(
   context: HandlerContext,
   client: XmtpClient<any>
 ) {
-  let reply = 'What events would you like to subscribe to:\n';
+  let reply = 'What would you like to do:\n';
   subscribeOptions.forEach((option, index) => {
     reply += `${index + 1}. ${option}\n`;
   });

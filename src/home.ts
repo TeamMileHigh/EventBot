@@ -36,8 +36,11 @@ run(async (context) => {
     const ipfsUrl = context.message.content.url
     const ipId = await handleStoryProtocolSubmission(ipfsUrl, context.message.senderAddress, attachment)
 
-    await context.reply(`Successfully minted, your ipID from Story Protocol is ${ipId}`);
-
+    if (ipId !== undefined) {
+      await context.reply(`Successfully minted, your ipID from Story Protocol is ${ipId}`);
+    } else {
+      await context.reply(`There was an issue minting, please try again`);
+    }
     return 
   }
 
@@ -45,6 +48,7 @@ run(async (context) => {
 
   switch (messageBody) {
     case 'subscribe':
+      context.reply('Verifying your address');
       // @dev check if sender is malicious or a bot
       const harpieResult = await isAddressMalicious(
         context.message.senderAddress
@@ -70,7 +74,7 @@ run(async (context) => {
       break;
     case '2':
       const message = await queryGraph();
-      await context.reply(message);
+      await context.reply(message + '\n\nTry another number.');
       break;
     case '3':
       await context.reply("Upload an image you'd like to register as IP");
