@@ -6,6 +6,7 @@ import {
   handleDatabaseSubscribe,
   handleSubscription,
   handleDatabaseUnsubscribe,
+  handleUnsubscriptionMsg,
   handleSubscriptionMsg,
   handleSetupQuickAlerts,
   sendMessageToSubscribers,
@@ -30,6 +31,7 @@ run(async (context) => {
       break;
     case 'unsubscribe':
       await handleDatabaseUnsubscribe(context, client, parseInt(messageBody));
+      await handleUnsubscriptionMsg(context, client);
       break;
     case '1':
       await context.reply('you selected 1');
