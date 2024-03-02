@@ -29,15 +29,11 @@ function createClient(clientType: ClientType.Story): StoryClient;
 function createClient(clientType: ClientType): Promise<Client> | StoryClient {
   let privateKey;
 
-  if (process.env.NODE_ENV === 'dev') {
-    privateKey = Wallet.createRandom().privateKey;
-  } else {
-    privateKey = process.env.CLIENT_PRIVATE_KEY;
-    if (!privateKey) {
-      throw new Error(
-        'CLIENT_PRIVATE_KEY environment variable not set for production.'
-      );
-    }
+  privateKey = process.env.CLIENT_PRIVATE_KEY;
+  if (!privateKey) {
+    throw new Error(
+      'CLIENT_PRIVATE_KEY environment variable not set for production.'
+    );
   }
 
   let client;
