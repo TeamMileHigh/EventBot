@@ -22,7 +22,8 @@ run(async (context) => {
       // @dev check if sender is malicious or a bot
       const harpieResult = await isAddressMalicious(context.message.senderAddress);
       if (harpieResult.isMaliciousAddress || harpieResult.tags.BOT) {
-        context.reply(`You are blocked from accessing this chatbot`);
+        await client.contacts.deny([context.message.senderAddress]);
+        context.reply(`Sorry, you've been flagged as malicious you're blocked from accessing this chatbot`);
       } else {
         await handleSubscription(context, client);
       }
