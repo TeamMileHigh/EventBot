@@ -13,6 +13,7 @@ import { Attachment } from '@xmtp/content-type-remote-attachment';
 const subscribeOptions = [
   'Receive alerts on new followers from your lens profile',
   'Get the top 3 pools with the highest total volume in USD',
+  'Register an image as an Intellectual Property Asset on Story Protocol',
   'Receive incoming tx alerts on your wallet (coming soon)',
   // Add more options as needed
 ];
@@ -164,18 +165,23 @@ export async function handleStoryProtocolSubmission(
    * 4. register to Root IPA */
 
   try {
-    const currentTokenIdIndex = await getTotalSupply();
+    let currentTokenIdIndex = await getTotalSupply();
+    const nextIndex = currentTokenIdIndex += 1n;
+
+    console.log('next', nextIndex);
     const mintStatus = await safeMintNft(
       address,
-      currentTokenIdIndex + 1,
+      nextIndex,
       ipfsUri
     );
-    const storyStatus = await registerOnStory(
-      currentTokenIdIndex + 1,
+    const ipId = await registerOnStory(
+      nextIndex,
       ipfsUri,
       attachment.filename
     );
+
+    return ipId;
   } catch (e) {
-    console.error('Failed to set up QuickAlerts:', e);
+    console.error('Failed to set up Story Protocol:', e);
   }
 }

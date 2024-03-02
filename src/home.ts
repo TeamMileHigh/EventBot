@@ -9,6 +9,7 @@ import {
   handleUnsubscriptionMsg,
   handleSubscriptionMsg,
   handleSetupQuickAlerts,
+  handleStoryProtocolSubmission,
   sendMessageToSubscribers,
 } from './homeHandlers.js';
 import {
@@ -30,11 +31,12 @@ run(async (context) => {
       client
     )) as Attachment;
 
-    const attachmentUrl = context.message.content.url
+    await context.reply(`We received your attachment, we're minting it now`);
 
-    // pass url over
+    const ipfsUrl = context.message.content.url
+    const ipId = await handleStoryProtocolSubmission(ipfsUrl, context.message.senderAddress, attachment)
 
-    await context.reply('We recieved an attachment - minting now');
+    await context.reply(`Successfully minted, your ipID from Story Protocol is ${ipId}`);
 
     return 
   }
@@ -71,11 +73,11 @@ run(async (context) => {
       await context.reply(message);
       break;
     case '3':
-      await context.reply('Upload an image you want to mint as an NFT');
+      await context.reply("Upload an image you'd like to register as IP");
       break;
     default:
       await context.reply(
-        `Welcome to the mile high club. \nReply with "Subscribe" for some magic.`
+        `Welcome to the Mile High club. \nReply with "Subscribe" for some magic.`
       );
   }
 });

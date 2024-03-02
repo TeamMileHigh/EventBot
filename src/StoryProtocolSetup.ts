@@ -5,20 +5,12 @@ import { ethers } from 'ethers';
 import { abi } from './ABI/ERC721ABI.js';
 import { StoryClient } from '@story-protocol/core-sdk';
 
-export async function createRootIpa() {
-  /** TODO
-   * 1. get ipfs hash
-   * 2. get totalSupply of minted nfts
-   * 3. mint nft with ipfs hash with totalSupply + 1 as tokenId
-   * 4. register to Root IPA */
-}
-
 export async function safeMintNft(
   address: string,
   tokenId: number,
   uri: string
 ) {
-  const provider = new ethers.AnkrProvider(process.env.RPC_PROVIDER_URL);
+  const provider = new ethers.JsonRpcProvider(process.env.RPC_PROVIDER_URL);
   const contractAddress = config.nftContract;
   const privateKey = process.env.OWNER_PRIVATE_KEY || '';
   const wallet = new ethers.Wallet(privateKey, provider);
@@ -47,13 +39,19 @@ export async function registerOnStory(
   console.log(
     `Root IPA created at transaction hash ${response.txHash}, IPA ID: ${response.ipId}`
   );
+
+  return response.ipId;
 }
 
 export async function getTotalSupply() {
-  const provider = new ethers.AnkrProvider(process.env.RPC_PROVIDER_URL);
+  const provider = new ethers.JsonRpcProvider(process.env.RPC_PROVIDER_URL);
   const contractAddress = config.nftContract;
-  const contract = new ethers.Contract(contractAddress, abi, provider);
-  const mintCount = await contract.mintCounter();
+  const contractABI = [
+    "function mintCounter() view returns (uint256)"
+  ];
 
-  return mintCount;
+  const contract = new ethers.Contract(contractAddress, contractABI, provider);
+  const mintCounter = await contract.mintCounter();
+
+  return mintCounter
 }
