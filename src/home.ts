@@ -11,6 +11,7 @@ import {
   sendMessageToSubscribers,
 } from './homeHandlers.js';
 import { isAddressMalicious, ClientType } from './Utils.js';
+import { queryGraph } from './TheGraphSetup.js';
 
 run(async (context) => {
   const messageBody = context.message.content.trim().toLowerCase();
@@ -34,6 +35,10 @@ run(async (context) => {
       await handleDatabaseSubscribe(context, client, parseInt(messageBody));
       await handleSubscriptionMsg(context, client);
       await handleSetupQuickAlerts(context);
+      break;
+    case '2':
+      const message = await queryGraph();
+      context.reply(message);
       break;
     default:
       await context.reply(

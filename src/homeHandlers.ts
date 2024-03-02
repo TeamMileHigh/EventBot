@@ -6,6 +6,7 @@ import { fetchLensProfile } from './AirstackSetup.js';
 
 const subscribeOptions = [
   'Receive alerts on new followers from your lens profile',
+  'Get the top 3 pools with the highest total volume in USD',
   'Receive incoming tx alerts on your wallet (coming soon)',
   // Add more options as needed
 ];
