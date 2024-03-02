@@ -1,6 +1,6 @@
-import createClient from './Client';
-import { config } from './Config';
-import { ClientType } from './Utils';
+import createClient from './Client.js';
+import { config } from './Config.js';
+import { ClientType } from './Utils.js';
 import { ethers } from 'ethers';
 import { abi } from './ABI/ERC721ABI.js';
 import { StoryClient } from '@story-protocol/core-sdk';
@@ -49,7 +49,7 @@ export async function registerOnStory(
   );
 }
 
-async function getTotalSupply() {
+export async function getTotalSupply() {
   const provider = new ethers.AnkrProvider(process.env.RPC_PROVIDER_URL);
   const contractAddress = config.nftContract;
   const contract = new ethers.Contract(contractAddress, abi, provider);
