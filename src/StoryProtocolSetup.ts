@@ -7,7 +7,13 @@ import { StoryClient } from '@story-protocol/core-sdk';
 
 export async function uploadToIpfs() {}
 
-export async function safeMintNft() {}
+export async function safeMintNft() {
+  /** TODO
+   * 1. get ipfs hash
+   * 2. get totalSupply of minted nfts
+   * 3. mint nft with ipfs hash with totalSupply + 1 as tokenId
+   * 4. register to Root IPA */
+}
 
 export async function registerOnStory() {
   const client = createClient(ClientType.Story);
