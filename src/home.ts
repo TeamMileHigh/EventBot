@@ -30,13 +30,13 @@ run(async (context) => {
       client
     )) as Attachment;
 
-    const objectURL = URL.createObjectURL(
-      new Blob([Buffer.from(attachment.data)], {
-        type: attachment.mimeType,
-      })
-    );
+    const attachmentUrl = context.message.content.url
 
-    console.log('HEYYYYYY GOOOOS SDD');
+    // pass url over
+
+    await context.reply('We recieved an attachment - minting now');
+
+    return 
   }
 
   const messageBody = context.message.content.trim().toLowerCase();
@@ -68,7 +68,10 @@ run(async (context) => {
       break;
     case '2':
       const message = await queryGraph();
-      context.reply(message);
+      await context.reply(message);
+      break;
+    case '3':
+      await context.reply('Upload an image you want to mint as an NFT');
       break;
     default:
       await context.reply(
