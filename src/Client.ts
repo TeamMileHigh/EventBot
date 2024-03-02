@@ -4,13 +4,23 @@ import {
   AttachmentCodec,
   RemoteAttachmentCodec,
 } from '@xmtp/content-type-remote-attachment';
-import { http } from 'viem';
 import { Wallet } from 'ethers';
-import { privateKeyToAccount } from 'viem/accounts';
 import dotenv from 'dotenv';
 import { ClientType } from './Utils.js';
 import { resolve } from 'dns/promises';
+import { createWalletClient, http } from 'viem';
+import { privateKeyToAccount } from 'viem/accounts';
+import { sepolia } from 'viem/chains';
 dotenv.config();
+
+export const account = privateKeyToAccount(
+  process.env.OWNER_PRIVATE_KEY as `0x${string}`
+);
+
+export const viemClient = createWalletClient({
+  chain: sepolia,
+  transport: http(process.env.RPC_PROVIDER_URL),
+});
 
 // Function overloads
 function createClient(clientType: ClientType.XMTP): Promise<Client>;
