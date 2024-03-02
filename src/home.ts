@@ -12,15 +12,40 @@ import {
 } from './homeHandlers.js';
 import { isAddressMalicious } from './Utils.js';
 import { ClientType } from './Utils';
+import {
+  ContentTypeAttachment,
+  AttachmentCodec,
+  RemoteAttachmentCodec,
+  ContentTypeRemoteAttachment,
+  Attachment,
+} from '@xmtp/content-type-remote-attachment';
 
 run(async (context) => {
-  const messageBody = context.message.content.trim().toLowerCase();
   const client = await createClient(ClientType.XMTP);
 
+  if (context.message.contentType.sameAs(ContentTypeRemoteAttachment)) {
+    const attachment = (await RemoteAttachmentCodec.load(
+      context.message.content,
+      client
+    )) as Attachment;
+
+    const objectURL = URL.createObjectURL(
+      new Blob([Buffer.from(attachment.data)], {
+        type: attachment.mimeType,
+      })
+    );
+
+    console.log('HEYYYYYY GOOOOS SDD');
+  }
+
+  const messageBody = context.message.content.trim().toLowerCase();
+
   switch (messageBody) {
-    case 'subscribe':    
+    case 'subscribe':
       // @dev check if sender is malicious or a bot
-      const harpieResult = await isAddressMalicious(context.message.senderAddress);
+      const harpieResult = await isAddressMalicious(
+        context.message.senderAddress
+      );
       if (harpieResult.isMaliciousAddress || harpieResult.tags.BOT) {
         context.reply(`You are blocked from accessing this chatbot`);
       } else {

@@ -1,4 +1,8 @@
 import { Client } from '@xmtp/xmtp-js';
+import {
+  AttachmentCodec,
+  RemoteAttachmentCodec,
+} from '@xmtp/content-type-remote-attachment';
 import { Wallet } from 'ethers';
 import { privateKeyToAccount } from 'viem/accounts';
 import { StoryClient, StoryConfig } from '@story-protocol/core-sdk';
@@ -36,6 +40,8 @@ async function createXmtpClient(privateKey: string): Promise<Client> {
   const client = await Client.create(wallet, {
     env: process.env.NODE_ENV as 'dev' | 'local' | 'production',
   });
+  client.registerCodec(new AttachmentCodec());
+  client.registerCodec(new RemoteAttachmentCodec());
   await client.publishUserContact();
   return client;
 }
