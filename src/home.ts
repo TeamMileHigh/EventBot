@@ -33,15 +33,21 @@ run(async (context) => {
 
     await context.reply(`We received your attachment, we're minting it now`);
 
-    const ipfsUrl = context.message.content.url
-    const ipId = await handleStoryProtocolSubmission(ipfsUrl, context.message.senderAddress, attachment)
+    const ipfsUrl = context.message.content.url;
+    const ipId = await handleStoryProtocolSubmission(
+      ipfsUrl,
+      context.message.conversation.clientAddress,
+      attachment
+    );
 
     if (ipId !== undefined) {
-      await context.reply(`Successfully minted, your ipID from Story Protocol is ${ipId}`);
+      await context.reply(
+        `Successfully minted, your ipID from Story Protocol is ${ipId}`
+      );
     } else {
       await context.reply(`There was an issue minting, please try again`);
     }
-    return 
+    return;
   }
 
   const messageBody = context.message.content.trim().toLowerCase();
