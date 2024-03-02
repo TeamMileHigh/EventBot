@@ -7,6 +7,7 @@ import {
   getTotalSupply,
   registerOnStory,
   safeMintNft,
+  transferNft,
 } from './StoryProtocolSetup.js';
 import { Attachment } from '@xmtp/content-type-remote-attachment';
 
@@ -155,7 +156,8 @@ export async function handleSetupQuickAlerts(context: HandlerContext) {
 
 export async function handleStoryProtocolSubmission(
   ipfsUri: string,
-  address: string,
+  senderAddress: string,
+  clientAddress: string,
   attachment: Attachment
 ) {
   /** TODO
@@ -166,21 +168,11 @@ export async function handleStoryProtocolSubmission(
 
   try {
     let currentTokenIdIndex = await getTotalSupply();
-    const nextIndex = currentTokenIdIndex += 1n;
+    const nextIndex = (currentTokenIdIndex += 1n);
 
-    console.log('next', nextIndex);
-    const mintStatus = await safeMintNft(
-      address,
-      nextIndex,
-      ipfsUri
-    );
-    const ipId = await registerOnStory(
-      nextIndex,
-      ipfsUri,
-      attachment.filename
-    );
-
-    return ipId;
+    await safeMintNft(senderAddress, nextIndex, ipfsUri);
+    await registerOnStory(nextIndex, ipfsUri, attachment.filename);
+    return await transferNft(clientAddress, senderAddress, nextIndex);
   } catch (e) {
     console.error('Failed to set up Story Protocol:', e);
   }

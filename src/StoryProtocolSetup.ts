@@ -2,7 +2,7 @@ import createClient from './Client.js';
 import { config } from './Config.js';
 import { ClientType } from './Utils.js';
 import { ethers } from 'ethers';
-// import { abi } from './ABI/ERC721ABI.js';
+import { erc721abi } from './ABI/ERC721ABI.js';
 import { StoryClient } from '@story-protocol/core-sdk';
 import { viemClient, account } from './Client.js';
 
@@ -24,6 +24,7 @@ export async function safeMintNft(
   await tx.wait();
 
   console.log('Minted successfully');
+  return tx;
 }
 
 export async function registerOnStory(
@@ -45,6 +46,26 @@ export async function registerOnStory(
   );
 
   return response.ipId;
+}
+
+export async function transferNft(from: string, to: string, tokenId: number) {
+  const provider = new ethers.JsonRpcProvider(process.env.RPC_PROVIDER_URL);
+  const contractAddress = config.nftContract;
+  const privateKey = process.env.OWNER_PRIVATE_KEY || '';
+  const wallet = new ethers.Wallet(privateKey, provider);
+  const contract = new ethers.Contract(contractAddress, erc721abi, wallet);
+
+  const approveTx = await contract.approve(from, tokenId);
+  await approveTx.wait();
+
+  console.log('Approved successfully');
+
+  const sendTx = await contract.safeTransferFrom(from, to, tokenId);
+  await sendTx.wait();
+
+  console.log('Transferred successfully');
+
+  return sendTx;
 }
 
 export async function getTotalSupply() {

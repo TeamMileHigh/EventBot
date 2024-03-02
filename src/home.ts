@@ -36,6 +36,7 @@ run(async (context) => {
     const ipfsUrl = context.message.content.url;
     const ipId = await handleStoryProtocolSubmission(
       ipfsUrl,
+      context.message.senderAddress,
       context.message.conversation.clientAddress,
       attachment
     );
