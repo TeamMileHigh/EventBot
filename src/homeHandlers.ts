@@ -145,8 +145,8 @@ export async function handleSetupQuickAlerts(context: HandlerContext) {
     if (!profileId) {
       context.reply('You do not have a Lens Profile');
     }
-    // for demo purposes we need a profileId that's not my own https://buttrfly.app/profile/benalistair
-    await createNotification(destination.id, '2743');
+    // for demo purposes we need a profileId that's not my own https://buttrfly.app/profile/jamesfinnerty
+    await createNotification(destination.id, '105878');
     console.log('QuickAlerts setup completed successfully.');
   } catch (error) {
     console.error('Failed to set up QuickAlerts:', error);
