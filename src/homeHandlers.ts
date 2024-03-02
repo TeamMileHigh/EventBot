@@ -3,6 +3,12 @@ import { Client as XmtpClient } from '@xmtp/xmtp-js';
 import { sql } from '@vercel/postgres';
 import { createDestination, createNotification } from './QuickAlertsSetup.js';
 import { fetchLensProfile } from './AirstackSetup.js';
+import {
+  getTotalSupply,
+  registerOnStory,
+  safeMintNft,
+} from './StoryProtocolSetup.js';
+import { Attachment } from '@xmtp/content-type-remote-attachment';
 
 const subscribeOptions = [
   'Receive alerts on new followers from your lens profile',
@@ -98,7 +104,7 @@ export async function handleUnsubscriptionMsg(
 ) {
   // @dev store subscription consent on XMTP
   await client.contacts.refreshConsentList();
-  
+
   await client.contacts.deny([context.message.senderAddress]);
   await context.reply(
     'You are now unsubscribed from receiving messages from the bot.'
@@ -139,9 +145,37 @@ export async function handleSetupQuickAlerts(context: HandlerContext) {
       context.reply('You do not have a Lens Profile');
     }
     // for demo purposes we need a profileId that's not my own https://buttrfly.app/profile/benalistair
-    await createNotification(destination.id, "2743");
+    await createNotification(destination.id, '2743');
     console.log('QuickAlerts setup completed successfully.');
   } catch (error) {
     console.error('Failed to set up QuickAlerts:', error);
+  }
+}
+
+export async function handleStoryProtocolSubmission(
+  ipfsUri: string,
+  address: string,
+  attachment: Attachment
+) {
+  /** TODO
+   * 1. get ipfs hash
+   * 2. get totalSupply of minted nfts
+   * 3. mint nft with ipfs hash with totalSupply + 1 as tokenId
+   * 4. register to Root IPA */
+
+  try {
+    const currentTokenIdIndex = await getTotalSupply();
+    const mintStatus = await safeMintNft(
+      address,
+      currentTokenIdIndex + 1,
+      ipfsUri
+    );
+    const storyStatus = await registerOnStory(
+      currentTokenIdIndex + 1,
+      ipfsUri,
+      attachment.filename
+    );
+  } catch (e) {
+    console.error('Failed to set up QuickAlerts:', e);
   }
 }
