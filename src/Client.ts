@@ -1,19 +1,22 @@
 import { Client } from '@xmtp/xmtp-js';
+import { StoryClient, StoryConfig } from '@story-protocol/core-sdk';
 import {
   AttachmentCodec,
   RemoteAttachmentCodec,
 } from '@xmtp/content-type-remote-attachment';
+import { http } from 'viem';
 import { Wallet } from 'ethers';
 import { privateKeyToAccount } from 'viem/accounts';
-import { StoryClient, StoryConfig } from '@story-protocol/core-sdk';
-import { http } from 'viem';
 import dotenv from 'dotenv';
 import { ClientType } from './Utils.js';
+import { resolve } from 'dns/promises';
 dotenv.config();
 
-export default async function createClient(
-  clientType: ClientType
-): Promise<Client> {
+// Function overloads
+function createClient(clientType: ClientType.XMTP): Promise<Client>;
+function createClient(clientType: ClientType.Story): StoryClient;
+
+function createClient(clientType: ClientType): Promise<Client> | StoryClient {
   let privateKey;
 
   if (process.env.NODE_ENV === 'dev') {
@@ -28,9 +31,15 @@ export default async function createClient(
   }
 
   let client;
-  if (clientType === ClientType.XMTP) client = createXmtpClient(privateKey);
-  if (clientType === ClientType.Story)
+  if (clientType === ClientType.XMTP) {
+    client = createXmtpClient(privateKey);
+  } else if (clientType === ClientType.Story) {
     client = createStoryClient(privateKey as `0x${string}`);
+  }
+
+  if (!client) {
+    throw new Error('Failed to create client.');
+  }
 
   return client;
 }
@@ -46,7 +55,7 @@ async function createXmtpClient(privateKey: string): Promise<Client> {
   return client;
 }
 
-async function createStoryClient(privateKey: `0x${string}`): Promise<any> {
+function createStoryClient(privateKey: `0x${string}`): StoryClient {
   const account = privateKeyToAccount(privateKey);
   const config: StoryConfig = {
     transport: http(process.env.RPC_PROVIDER_URL),
@@ -54,3 +63,5 @@ async function createStoryClient(privateKey: `0x${string}`): Promise<any> {
   };
   return StoryClient.newClient(config);
 }
+
+export default createClient;
